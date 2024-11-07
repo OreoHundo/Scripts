@@ -466,7 +466,7 @@ task.spawn(function()
 		end
 		-- check if finished here
 
-		if CurrentTier.Text == "Your Tier: 20 / 20" and CandyNum > 98_000 then
+		if CurrentTier.Text == "Your Tier: 20 / 20" and CandyNum > 98_000 and not ShutTheTheUpFuckFuck then
 			WebhookSend("Finished")
 			ShutTheTheUpFuckFuck = true
 		end
