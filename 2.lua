@@ -602,22 +602,23 @@ workspace.ChildAdded:Connect(function(Child)
 				wait(.25)
 			end
 			
+			
+			-- // Check for Full Coin Bag
 			--[[
 				BeachBall
 				Candy
 				Coin
 				Egg
 			]]
-			
 			local CoinBag = nil
 			for Index, Child_1 in pairs(MainGui.Game.CoinBags.Container:GetChildren()) do
 				if not Child_1:IsA("Frame") then continue end
 				
 				if Child_1.Visible then
 					CoinBag = Child_1
-					print(Child_1.Name, "Visible")
+					-- print(Child_1.Name, "Visible")
 				else
-					print(Child_1.Name, "Not Visible")
+					-- print(Child_1.Name, "Not Visible")
 				end
 			end
 			
@@ -625,29 +626,15 @@ workspace.ChildAdded:Connect(function(Child)
 				warn("Default Coin Bag")
 				CoinBag = MainGui.Game.CoinBags.Container.Coin
 			end
+			print(CoinBag.Name)
 			
 			if not CoinBag.Visible then
 				AssumeDead = true
 				continue
 			end
 			
-			--if Event == "Halloween2024" then
-			--	warn("Halloween2024", "Halloween Bag.")
-			--	CoinBag = MainGui.Game.CoinBags.Container.Candy
-			--	if not CoinBag.Visible then 
-			--		AssumeDead = true
-			--		continue
-			--	end
-			--else
-			--	print("Coin Bag.")
-			--	CoinBag = MainGui.Game.CoinBags.Container.Coin
-			--	if not CoinBag.Visible then 
-			--		AssumeDead = true
-			--		continue
-			--	end
-			--end
-			
 			local FullCoinBag = CoinBag:FindFirstChild("Full")
+			
 			
 			local Char_2 = Character()
 			if not Char_2 then
@@ -658,7 +645,7 @@ workspace.ChildAdded:Connect(function(Child)
 
 			print("-----------------------------------")
 
-			-- Check for Nearby Murderer
+			-- // Check for Nearby Murderer
 			for Index, Player in pairs(Players:GetPlayers()) do 
 				local PlrChar = Player.Character
 				if not PlrChar then continue end 
@@ -759,7 +746,7 @@ workspace.ChildAdded:Connect(function(Child)
 				end
 			end
 
-			-- Get Gun If Full
+			-- // Get Gun If Full
 			local SoFullWearyFace = false
 			if FullCoinBag and FullCoinBag.Visible then 
 				print("Full Candy, Finding Gun.")
@@ -801,7 +788,7 @@ workspace.ChildAdded:Connect(function(Child)
 			end
 
 
-			-- Get Closest Coin
+			-- // Get Closest Coin
 			if FullCoinBag and not FullCoinBag.Visible then
 				print("Not Full, Getting Candy.")
 				local Closest = nil 
