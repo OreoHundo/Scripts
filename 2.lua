@@ -601,6 +601,13 @@ workspace.ChildAdded:Connect(function(Child)
 				wait(.25)
 			end
 			
+			--[[
+				BeachBall
+				Candy
+				Coin
+				Egg
+			]]
+			
 			local CoinBag = nil
 			if Event == "Halloween2024" then
 				warn("Halloween2024", "Halloween Bag.")
@@ -775,7 +782,6 @@ workspace.ChildAdded:Connect(function(Child)
 			-- Get Closest Coin
 			if FullCoinBag and not FullCoinBag.Visible then
 				print("Not Full, Getting Candy.")
-				warn("note for myself, make sure this works for coins not just candy. and if it doesnt, fix it")
 				local Closest = nil 
 				local ClosestDist = math.huge
 				for Index, Coin in pairs(Container:GetChildren()) do
