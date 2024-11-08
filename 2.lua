@@ -21,7 +21,7 @@ if Studio then
 		return true
 	end
 end
-local ScriptVersion = "2.0"
+local ScriptVersion = "2.1"
 print("Starting MM2 Farm V"..ScriptVersion)
 
 
@@ -500,8 +500,8 @@ if Event == "Halloween2024" then
 	end)
 end
 
-print("Finished Main.", Time())
-print("Starting Farm.", Time())
+print("Finished Main")
+print("Starting Farm")
 local MapNames = {
 	"Mineshaft";
 	"Manor";
@@ -576,6 +576,7 @@ if not Studio then
 		print(WebName, RarityColor)
 		WebhookSend("Crate", WebName, RarityName2,  RarityColor2)
 	end)
+	print("Setup Inventory")
 end
 
 workspace.ChildAdded:Connect(function(Child)
