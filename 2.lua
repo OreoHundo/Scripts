@@ -22,7 +22,7 @@ if Studio then
 	end
 end
 local ScriptVersion = "2.1"
-print("Starting MM2 Farm V"..ScriptVersion)
+print("Starting MM2 Farm "..ScriptVersion)
 
 
 -- // Settings
@@ -582,14 +582,14 @@ end
 workspace.ChildAdded:Connect(function(Child)
 	wait()
 	if table.find(MapNames, Child.Name) then 
-		print("Map Found", Child.Name, Time())
+		print("Map Found", Child.Name)
 
 		-- Gun Dropped
 		AssumeDead = false
 		local TPdUp = false
 		local LocalPlayerMurderer = false
 		local Container = Child:WaitForChild("CoinContainer", 120)
-		print("Start Scanning", Child.Name, Time())
+		print("Start Scanning", Child.Name)
 		MapConnections[Child.Name] = true
 		while MapConnections[Child.Name] == true do
 			task.wait(TimeBetweenTween)
