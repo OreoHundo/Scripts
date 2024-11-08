@@ -609,21 +609,42 @@ workspace.ChildAdded:Connect(function(Child)
 			]]
 			
 			local CoinBag = nil
-			if Event == "Halloween2024" then
-				warn("Halloween2024", "Halloween Bag.")
-				CoinBag = MainGui.Game.CoinBags.Container.Candy
-				if not CoinBag.Visible then 
-					AssumeDead = true
-					continue
-				end
-			else
-				print("Coin Bag.")
-				CoinBag = MainGui.Game.CoinBags.Container.Coin
-				if not CoinBag.Visible then 
-					AssumeDead = true
-					continue
+			for Index, Child_1 in pairs(MainGui.Game.CoinBags.Container:GetChildren()) do
+				if not Child_1:IsA("Frame") then continue end
+				
+				if Child_1.Visible then
+					CoinBag = Child_1
+					print(Child_1.Name, "Visible")
+				else
+					print(Child_1.Name, "Not Visible")
 				end
 			end
+			
+			if CoinBag == nil then
+				warn("Default Coin Bag")
+				CoinBag = MainGui.Game.CoinBags.Container.Coin
+			end
+			
+			if not CoinBag.Visible then
+				AssumeDead = true
+				continue
+			end
+			
+			--if Event == "Halloween2024" then
+			--	warn("Halloween2024", "Halloween Bag.")
+			--	CoinBag = MainGui.Game.CoinBags.Container.Candy
+			--	if not CoinBag.Visible then 
+			--		AssumeDead = true
+			--		continue
+			--	end
+			--else
+			--	print("Coin Bag.")
+			--	CoinBag = MainGui.Game.CoinBags.Container.Coin
+			--	if not CoinBag.Visible then 
+			--		AssumeDead = true
+			--		continue
+			--	end
+			--end
 			
 			local FullCoinBag = CoinBag:FindFirstChild("Full")
 			
@@ -808,7 +829,7 @@ workspace.ChildAdded:Connect(function(Child)
 			print("-----------------------------------")
 		end
 
-		print("Ended", Child.Name)
+		print("Loop Ended", Child.Name)
 	end
 end)
 
@@ -826,7 +847,7 @@ workspace.ChildRemoved:Connect(function(Child)
 	end
 end)
 
-print("Everything Finished.", Time())
+print("Everything Finished")
 
 warn("If ANYTHING is between this message and the ====, TELL ME")
 for Index, Thing in pairs(getfenv()) do
