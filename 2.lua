@@ -1,5 +1,4 @@
 if not game:IsLoaded() then repeat task.wait() until game:IsLoaded() task.wait(10) end local rs = game:GetService("RunService") local Studio = rs:IsStudio() local global = Studio and _G or getgenv()
-print("2")
 if Studio then
 	warn("Studio")
 	function request()
@@ -67,7 +66,7 @@ if Event == "Halloween2024" and Halloween2024_Settings then
 	Halloween2024_Webhook_URL = Halloween2024_Settings.Candy_URL
 	Halloween2024_FinishedWebhook_URL = Halloween2024_Settings.Finished_URL
 	Halloween2024_CrateWebhook_URL = Halloween2024_Settings.Crate_URL
-	print("Halloween2024 Settings", Halloween2024_Settings)
+	warn("Halloween2024 Settings", Halloween2024_Settings)
 end
 
 
@@ -93,7 +92,7 @@ local function Time()
 	return Time
 end
 
-print("Starting Main.", Time())
+print("Starting Main")
 local function Hop()
 	print("ServerHopping")
 	while task.wait() do
@@ -147,7 +146,9 @@ local function WFC(Parent, ChildName)
 	while true do
 		Found = Parent:FindFirstChild(ChildName)
 		if not Found then
-			print(ChildName, "Not Found In ".. Parent.Name ..". Checks:", Checks)
+			if Checks % 50 == 0 then
+				print(ChildName, "Not Found In ".. Parent.Name ..". Checks:", Checks)
+			end
 			Checks = Checks + 1
 			RunService.Heartbeat:Wait()
 		else
@@ -552,7 +553,7 @@ end
 WebhookSend("Start")
 
 if not Studio then
-	warn("Waiting for Inventory.")
+	print("Waiting for Inventory.")
 	local ContainerHInv = PlayerGui:WaitForChild("MainGUI", 120):WaitForChild("Game", 120):WaitForChild("Inventory", 120):WaitForChild("Main", 120):WaitForChild("Weapons", 120):WaitForChild("Items", 120):WaitForChild("Container", 120):WaitForChild("Holiday", 120):WaitForChild("Container", 120):WaitForChild("Halloween", 120):WaitForChild("Container", 120)
 	ContainerHInv.ChildAdded:Connect(function(Child)
 		wait()
