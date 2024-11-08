@@ -194,7 +194,9 @@ end
 local Remotes = WFC(ReplicatedStorage, "Remotes")
 local Modules = WFC(ReplicatedStorage, "Modules")
 
-local OpenCrate = WFC(Remotes, "OpenCrate")
+local Shop = WFC(Remotes, "Shop")
+
+local OpenCrate = WFC(Shop, "OpenCrate")
 local ProfileData = WFC(Modules, "ProfileData")
 local ProfileDataReq = require(ProfileData)
 
