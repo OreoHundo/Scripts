@@ -85,7 +85,17 @@ if not Studio then
 end
 
 -- Kick Check
+local function Time()
+	local Date = os.date("!*t")
+	local Hour = ((Date.hour-6) % 24)
+	local AmOrPm = Hour < 12 and "AM" or "PM"
+	local Time = string.format("%02i:%02i %s", ((Hour - 1) % 12) + 1, Date.min, AmOrPm)
+	return Time
+end
+
+print("Starting Main.", Time())
 local function Hop()
+	print("ServerHopping")
 	while task.wait() do
 		TeleportService:Teleport(game.PlaceId, LocalPlayer)
 	end
@@ -124,14 +134,6 @@ local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local HTTP = game:GetService("HttpService")
 local SendInvChange = false
-local function Time()
-	local Date = os.date("!*t")
-	local Hour = ((Date.hour-6) % 24)
-	local AmOrPm = Hour < 12 and "AM" or "PM"
-	local Time = string.format("%02i:%02i %s", ((Hour - 1) % 12) + 1, Date.min, AmOrPm)
-	return Time
-end
-print("Starting Main.", Time())
 if tonumber(FPSCap) and tonumber(FPSCap) ~= 60 then
 	print("Capped FPS at", tostring(FPSCap))
 	setfpscap(tonumber(FPSCap))
@@ -145,7 +147,7 @@ local function WFC(Parent, ChildName)
 	while true do
 		Found = Parent:FindFirstChild(ChildName)
 		if not Found then
-			-- print(ChildName, "Not Found In ".. Parent.Name ..". Checks:", Checks)
+			print(ChildName, "Not Found In ".. Parent.Name ..". Checks:", Checks)
 			Checks = Checks + 1
 			RunService.Heartbeat:Wait()
 		else
@@ -153,7 +155,7 @@ local function WFC(Parent, ChildName)
 		end
 	end
 	
-	-- print(ChildName, "Found In ".. Parent.Name ..". Checks:", Checks)
+	print(ChildName, "Found In ".. Parent.Name ..". Checks:", Checks)
 	return Found
 end
 
