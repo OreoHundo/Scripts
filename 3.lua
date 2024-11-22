@@ -21,7 +21,7 @@ if Studio then
 		return true
 	end
 end
-local ScriptVersion = "3"
+local ScriptVersion = "3.01"
 print("Starting MM2 Farm "..ScriptVersion)
 
 -- // Settings
@@ -49,10 +49,8 @@ local ForceChange = DevSettings.ForceChange
 
 
 -- // Event Settings
-local EventSettings = Settings.EventSettings
-
-
 -- Halloween2024 Event Settings
+local EventSettings = Settings.EventSettings
 local Halloween2024_Settings = EventSettings["Halloween2024"]
 local Halloween2024_BuyBattlePass
 local Halloween2024_BuyCrates
@@ -69,13 +67,6 @@ if Event == "Halloween2024" and Halloween2024_Settings then
 	Halloween2024_CrateWebhook_URL = Halloween2024_Settings.Crate_URL
 	warn("Halloween2024 Settings", Halloween2024_Settings)
 end
-
--- Thanksgiving2024 Event Settings
-local Thanksgiving2024_Settings = EventSettings["Thanksgiving2024"]
-if Event == "Thanksgiving2024" and Thanksgiving2024_Settings then
-	warn("Thanksgiving2024 Settings", Thanksgiving2024_Settings)
-end
-
 
 
 -- // Main
@@ -610,7 +601,7 @@ local function GetClosestPart(CloseTable)
 
 	local Closest = nil 
 	local ClosestDist = math.huge
-	for Index, Coin in pairs(CloseTable:GetChildren()) do
+	for Index, Coin in pairs(CloseTable) do
 		if Coin.Name ~= "Coin_Server" or not Coin:FindFirstChild("TouchInterest") then continue end
 		local Distance = (Coin.Position - Char_Close.HumanoidRootPart.Position).magnitude
 		if not Closest then 
@@ -824,7 +815,6 @@ workspace.ChildAdded:Connect(function(Child)
 						end
 						print("Gun was Dropped, Picking Up.")
 						local wft = TPTween(Child_2.Position)
-						print("Got Gun Maybe")
 					end
 				end
 
@@ -841,6 +831,8 @@ workspace.ChildAdded:Connect(function(Child)
 				print("Not Full, Getting Coin.")
 
 				if Event == "Halloween2024" then
+					
+					-- // Halloween Pickup
 					warn("Halloween2024 Closest")
 					local CheckTable = {}
 					for Index, Coin in pairs(Container:GetChildren()) do
@@ -854,10 +846,13 @@ workspace.ChildAdded:Connect(function(Child)
 					local ClosestDist = GetClosest[2]
 
 					warn("Halloween2024", math.ceil(ClosestDist), "Closest Candy")
-					if ClosestDist < MaxDist then 
+					if ClosestDist < MaxDist and Closest then 
 						local wft = TPTween(Closest.Position)
 					end
+					
 				elseif Event == "Thanksgiving2024" then
+					
+					-- // Thanksgiving Pickup
 					warn("Thanksgiving2024 Closest - Needs Testing")
 					local CheckTable = {}
 					for Index, Coin in pairs(Container:GetChildren()) do
@@ -871,15 +866,16 @@ workspace.ChildAdded:Connect(function(Child)
 					local ClosestDist = GetClosest[2]
 
 					warn("Thanksgiving2024", math.ceil(ClosestDist), "Closest Coin")
-					if ClosestDist < MaxDist then 
+					if ClosestDist < MaxDist and Closest then 
 						local wft = TPTween(Closest.Position)
 					end
+					
 				else
+					-- // Default Coin Pickup
 					print("Normal Closest - Needs Testing")
 					local CheckTable = {}
 					for Index, Coin in pairs(Container:GetChildren()) do
 						if Coin.Name ~= "Coin_Server" or not Coin:FindFirstChild("TouchInterest") then continue end
-						-- Checks for Candy Only, in events this would maybe say BeachBall_Server instead of Coin_Server
 						table.insert(CheckTable, Coin)
 					end
 
@@ -888,7 +884,7 @@ workspace.ChildAdded:Connect(function(Child)
 					local ClosestDist = GetClosest[2]
 
 					print(math.ceil(ClosestDist), "Closest Coin")
-					if ClosestDist < MaxDist then 
+					if ClosestDist < MaxDist and Closest then 
 						local wft = TPTween(Closest.Position)
 					end
 				end
