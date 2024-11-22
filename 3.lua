@@ -660,12 +660,14 @@ workspace.ChildAdded:Connect(function(Child)
 					-- print(Child_1.Name, "Not Visible")
 				end
 			end
+			
+			print("-----------------------------------")
 
 			if CoinBag == nil then
 				warn("Default Coin Bag")
 				CoinBag = MainGui.Game.CoinBags.Container.Coin
 			end
-			print(CoinBag.Name)
+			print("CoinBag: ", CoinBag.Name)
 
 			if not CoinBag.Visible then
 				AssumeDead = true
@@ -682,7 +684,6 @@ workspace.ChildAdded:Connect(function(Child)
 				continue 
 			end
 
-			print("-----------------------------------")
 
 			-- // Check for Nearby Murderer
 			for Index, Player in pairs(Players:GetPlayers()) do 
@@ -731,7 +732,7 @@ workspace.ChildAdded:Connect(function(Child)
 
 							Char_3.HumanoidRootPart.CFrame = PlrHRP.CFrame * CFrame.new(0, 0, 5)
 
-							wait(0.25)
+							wait(0.1)
 
 							local Remote = LocalFoundGun.KnifeLocal.CreateBeam.RemoteFunction
 							Remote:InvokeServer(1, PlrHRP.Position, "AH2")
@@ -791,7 +792,7 @@ workspace.ChildAdded:Connect(function(Child)
 				print("Full Candy, Finding Gun.")
 				SoFullWearyFace = true
 				local Char_5 = Character()
-				if not Char_5.Humanoid then 
+				if not Char_5 then 
 					warn("No Humanoid")
 					continue
 				end
