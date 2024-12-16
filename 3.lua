@@ -21,7 +21,7 @@ if Studio then
 		return true
 	end
 end
-local ScriptVersion = "3.04"
+local ScriptVersion = "3.05"
 print("Starting "..ScriptVersion)
 
 -- // Settings
@@ -638,9 +638,33 @@ workspace.ChildAdded:Connect(function(Child)
 				repeat
 					wait()
 				until LocalPlayer.PlayerGui:FindFirstChild("MainGUI")
-				wait(.25)
+				wait()
 			end
-
+			print("-----------------------------------")
+			
+			if not LocalPlayer.PlayerGui:FindFirstChild("MainGUI") then
+				warn("No MainGUI UI, Assuming Dead")
+				AssumeDead = true
+				continue
+			end
+			
+			if not LocalPlayer.PlayerGui.MainGUI:FindFirstChild("Game") then
+				warn("No Game UI, Assuming Dead")
+				AssumeDead = true
+				continue
+			end
+				
+			if not LocalPlayer.PlayerGui.MainGUI.Game:FindFirstChild("CoinBags") then
+				warn("No CoinBags UI, Assuming Dead")
+				AssumeDead = true
+				continue
+			end
+			
+			if not LocalPlayer.PlayerGui.MainGUI.Game.CoinBags:FindFirstChild("Container") then
+				warn("No Container UI, Assuming Dead")
+				AssumeDead = true
+				continue
+			end
 
 			-- // Check for Full Coin Bag
 			--[[
@@ -660,8 +684,6 @@ workspace.ChildAdded:Connect(function(Child)
 					-- print(Child_1.Name, "Not Visible")
 				end
 			end
-			
-			print("-----------------------------------")
 
 			if CoinBag == nil then
 				warn("Default Coin Bag")
