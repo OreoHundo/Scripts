@@ -21,8 +21,8 @@ if Studio then
 		return true
 	end
 end
-local ScriptVersion = "3.01"
-print("Starting MM2 Farm "..ScriptVersion)
+local ScriptVersion = "3.02"
+print("Starting "..ScriptVersion)
 
 -- // Settings
 local Settings = global.Settings
@@ -564,8 +564,8 @@ for Index, Child in pairs(workspace:GetChildren()) do
 end
 WebhookSend("Start")
 
-if not Studio then
-	print("Waiting for Inventory.")
+if not Studio and Event == "Halloween2024" then
+	warn("Halloween2024","Waiting for Inventory.")
 	local ContainerHInv = PlayerGui:WaitForChild("MainGUI", 120):WaitForChild("Game", 120):WaitForChild("Inventory", 120):WaitForChild("Main", 120):WaitForChild("Weapons", 120):WaitForChild("Items", 120):WaitForChild("Container", 120):WaitForChild("Holiday", 120):WaitForChild("Container", 120):WaitForChild("Halloween", 120):WaitForChild("Container", 120)
 	ContainerHInv.ChildAdded:Connect(function(Child)
 		wait()
@@ -588,7 +588,7 @@ if not Studio then
 		print(WebName, RarityColor)
 		WebhookSend("Crate", WebName, RarityName2,  RarityColor2)
 	end)
-	print("Setup Inventory")
+	warn("Halloween2024", "Setup Inventory")
 end
 
 local function GetClosestPart(CloseTable)
@@ -914,7 +914,7 @@ end)
 
 print("Everything Finished")
 
-warn("- ============== - If Anything is here that isnt 'script' tell me. ")
+warn("- ============== - If Anything is here that isnt 'script' tell me")
 for Index, Thing in pairs(getfenv()) do
 	warn(tostring(Index), tostring(Thing))
 end 
