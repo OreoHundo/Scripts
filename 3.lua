@@ -23,6 +23,11 @@ if Studio then
 end
 local ScriptVersion = "3.05"
 print("Starting "..ScriptVersion)
+task.spawn(function()
+	while wait(30) do
+		print("cool number that should be what i say it is to make sure you're on the right version:"..ScriptVersion)
+	end
+end)
 
 -- // Settings
 local Settings = global.Settings
@@ -621,14 +626,14 @@ end
 workspace.ChildAdded:Connect(function(Child)
 	wait()
 	if table.find(MapNames, Child.Name) then 
-		print("Map Found", Child.Name)
+		print("Map Found", Child.Name, ScriptVersion)
 
 		-- Gun Dropped
 		AssumeDead = false
 		local TPdUp = false
 		local LocalPlayerMurderer = false
 		local Container = Child:WaitForChild("CoinContainer", 120)
-		print("Start Scanning", Child.Name)
+		print("Start Scanning", Child.Name, ScriptVersion)
 		MapConnections[Child.Name] = true
 		while MapConnections[Child.Name] == true do
 			task.wait(TimeBetweenTween)
@@ -640,7 +645,6 @@ workspace.ChildAdded:Connect(function(Child)
 				until LocalPlayer.PlayerGui:FindFirstChild("MainGUI")
 				wait()
 			end
-			print("-----------------------------------")
 			
 			if not LocalPlayer.PlayerGui:FindFirstChild("MainGUI") then
 				warn("No MainGUI UI, Assuming Dead")
@@ -665,6 +669,8 @@ workspace.ChildAdded:Connect(function(Child)
 				AssumeDead = true
 				continue
 			end
+			
+			print("-----------------------------------", ScriptVersion)
 
 			-- // Check for Full Coin Bag
 			--[[
