@@ -21,7 +21,7 @@ if Studio then
 		return true
 	end
 end
-local ScriptVersion = "3.02"
+local ScriptVersion = "3.04"
 print("Starting "..ScriptVersion)
 
 -- // Settings
@@ -787,20 +787,24 @@ workspace.ChildAdded:Connect(function(Child)
 			end
 
 			-- // Get Gun If Full
+			print("AssumeDead -", tostring(AssumeDead))
 			local SoFullWearyFace = false
 			if FullCoinBag and FullCoinBag.Visible then 
-				print("Full Candy, Finding Gun.")
+				print("Full Candy, Finding Gun. AssumeDead:")
+				print("1 AssumeDead:", tostring(AssumeDead))
 				SoFullWearyFace = true
 				local Char_5 = Character()
 				if not Char_5 then 
 					warn("No Humanoid")
 					continue
 				end
+				print("2 AssumeDead:", tostring(AssumeDead))
 				local FoundGun_2 = false
 				for Index, Child_2 in pairs(Child:GetDescendants()) do
 					if Child_2.Name == "GunDrop" and not AssumeDead then
 						if LocalPlayerMurderer then
 							print("Gun was Dropped, but LocalPlayer is the Murderer")
+							print("3 AssumeDead:", tostring(AssumeDead))
 							return
 						end
 
@@ -815,6 +819,7 @@ workspace.ChildAdded:Connect(function(Child)
 							return
 						end
 						print("Gun was Dropped, Picking Up.")
+						print("4 AssumeDead:", tostring(AssumeDead))
 						local wft = TPTween(Child_2.Position)
 					end
 				end
@@ -914,7 +919,7 @@ end)
 
 print("Everything Finished")
 
-warn("- ============== - If Anything is here that isnt 'script' tell me")
+warn("- ============== - If Anything is here that isnt 'script' tell me. ")
 for Index, Thing in pairs(getfenv()) do
 	warn(tostring(Index), tostring(Thing))
 end 
