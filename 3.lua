@@ -310,7 +310,7 @@ local function SelectPhone()
 		return false
 	end
 
-	local Phone = DeviceSelect:WaitForChild("Container"):WaitForChild("Phone"):WaitForChild("Button")
+	local Phone = DeviceSelect:WaitForChild("Container"):WaitForChild("Tablet"):WaitForChild("Button")
 
 	repeat
 		local FoundScreen = PlayerGui:FindFirstChild("DeviceSelect")
@@ -646,18 +646,12 @@ workspace.ChildAdded:Connect(function(Child)
 				wait()
 			end
 			
-			if not LocalPlayer.PlayerGui:FindFirstChild("MainGUI") then
-				warn("No MainGUI UI, Assuming Dead")
-				AssumeDead = true
-				continue
-			end
-			
 			if not LocalPlayer.PlayerGui.MainGUI:FindFirstChild("Game") then
 				warn("No Game UI, Assuming Dead")
 				AssumeDead = true
 				continue
 			end
-				
+			
 			if not LocalPlayer.PlayerGui.MainGUI.Game:FindFirstChild("CoinBags") then
 				warn("No CoinBags UI, Assuming Dead")
 				AssumeDead = true
