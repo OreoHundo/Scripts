@@ -651,15 +651,6 @@ local MapNames = {
 	"PoliceStation";
 	"ResearchFacility";
 	"MilBase";
-	
-	-- Halloween
-	"VampireCastle";
-	"Manor";
-	
-	-- Christmas
-	"LogCabin";
-	"Station";
-	"ChristmasItaly";
 
 	"Bank";
 	"Bank1";
@@ -685,6 +676,16 @@ local MapNames = {
 	"Hospital1";
 	"Hospital2";
 	"Hospital3";
+	
+	-- Halloween
+	"VampireCastle";
+	"Manor";
+
+	-- Christmas
+	"LogCabin";
+	"Station";
+	"ChristmasItaly";
+	"SkiLodge";
 }
 
 local GunConnections = {}
