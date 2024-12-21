@@ -33,9 +33,8 @@ end
 
 local RunService = game:GetService("RunService") 
 local Studio = RunService:IsStudio() 
-local global = Studio and _G or getgenv()
 
-local ScriptVersion = "3.20"
+local ScriptVersion = "3.21"
 print("Starting "..ScriptVersion)
 task.spawn(function()
 	while wait(60) do
@@ -44,7 +43,7 @@ task.spawn(function()
 end)
 
 -- // Settings
-local Settings = global.Settings
+local Settings = getgenv().Settings
 local Event = Settings.Event
 local FarmSettings = Settings.FarmSettings
 local OtherSettings = Settings.OtherSettings
