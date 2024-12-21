@@ -21,7 +21,7 @@ if Studio then
 		return true
 	end
 end
-local ScriptVersion = "3.11"
+local ScriptVersion = "3.12"
 print("Starting "..ScriptVersion)
 task.spawn(function()
 	while wait(60) do
@@ -339,8 +339,7 @@ if Event == "Christmas2024" then
 		end
 		return true
 	end 
-	warn("nowaybro",Christmas2024_CurrentTier.Text, Christmas2024_CurrentTokens.Text)
-
+	
 	Christmas2024_BuyCrate = function()
 		if Christmas2024_CandyFromMod >= 800 then
 			warn("Christmas2024", "Buying Crate.")
@@ -405,15 +404,14 @@ local function WebhookSend(TaiShii, Name, Rarity, Color)
 				warn("Christmas2024 Webhook URL is not set.")
 				return
 			end
-			Christmas2024_CandyFromMod = ProfileDataReq.Materials.Owned["SnowTokens2024"]
-			
+
 			JSONStuff = [[
 				{
 				  "content": "Account: ]]..tostring(LocalPlayer.Name)..[[",
 				  "embeds": [
 				    {
 				      "title": "]]..tostring(Time())..[[",
-				      "description": "❄️ ]]..tostring(Christmas2024_CandyFromMod)..[[ Snow Tokens\n💵 ]].."battle pass here"..[[",
+				      "description": "❄️ ]]..tostring(Christmas2024_CurrentTokens.Text)..[[ Snow Tokens\n💵 ]]..Christmas2024_CurrentTier.Text..[[",
 				      "color": 47359
 				    }
 				  ],
