@@ -21,7 +21,7 @@ if Studio then
 		return true
 	end
 end
-local ScriptVersion = "3.13"
+local ScriptVersion = "3.15"
 print("Starting "..ScriptVersion)
 task.spawn(function()
 	while wait(60) do
@@ -175,10 +175,12 @@ local function Character()
 	return C
 end
 
+local TweenCoinbagFull = false
 local AssumeDead = false
 local ActiveTween = false
 local function TPTween(Position)
-	if ActiveTween then repeat wait() until not ActiveTween end
+	if ActiveTween then repeat task.wait() until not ActiveTween end
+	if TweenCoinbagFull then print("Cancelled Tween") return end
 	ActiveTween = true
 	if AssumeDead then return end
 	local Char_1 = Character()
@@ -372,13 +374,13 @@ local function SelectPhone()
 		return false
 	end
 
-	local Phone = DeviceSelect:WaitForChild("Container"):WaitForChild("Tablet"):WaitForChild("Button")
+	local Tablet = DeviceSelect:WaitForChild("Container"):WaitForChild("Tablet"):WaitForChild("Button")
 
 	repeat
 		local FoundScreen = PlayerGui:FindFirstChild("DeviceSelect")
 		if FoundScreen then
-			local xPosition = Phone.AbsolutePosition.X + (Phone.AbsoluteSize.X / 2)
-			local yPosition = Phone.AbsolutePosition.Y + (Phone.AbsoluteSize.Y / 2)
+			local xPosition = Tablet.AbsolutePosition.X + (Tablet.AbsoluteSize.X / 2)
+			local yPosition = Tablet.AbsolutePosition.Y + (Tablet.AbsoluteSize.Y / 2)
 			VirtualInputManager:SendMouseButtonEvent(xPosition, yPosition, 0, true, game, 0)
 			VirtualInputManager:SendMouseButtonEvent(xPosition, yPosition, 0, false, game, 0)
 		end
@@ -389,9 +391,30 @@ end
 
 SelectPhone()
 
+local function FriendCheck()
+	local FCJoin = PlayerGui:FindFirstChild("Join")
+	if not FCJoin then return end
+	local FCFriends = FCJoin:FindFirstChild("Friends")
+	if not FCFriends then return end
+	local FCPlay = FCFriends:FindFirstChild("Play")
+	if not FCPlay then return end
+	
+	repeat
+		local xPosition = FCPlay.AbsolutePosition.X + (FCPlay.AbsoluteSize.X / 2)
+		local yPosition = FCPlay.AbsolutePosition.Y + (FCPlay.AbsoluteSize.Y / 2)
+		VirtualInputManager:SendMouseButtonEvent(xPosition, yPosition, 0, true, game, 0)
+		VirtualInputManager:SendMouseButtonEvent(xPosition, yPosition, 0, false, game, 0)
+		wait()
+	until not PlayerGui:FindFirstChild("Join")
+	print("Clicked Join")
+end
+
+FriendCheck()
+
 PlayerGui.ChildAdded:Connect(function(Child)
 	wait(.1)
 	SelectPhone()
+	FriendCheck()
 end)
 
 local function WebhookSend(TaiShii, Name, Rarity, Color)
@@ -691,6 +714,18 @@ end
 
 print("Finished Main")
 print("Starting Farm")
+local HigherTps = {
+	"Hotel";
+	"Mansion";
+	"Mansion1";
+	"Mansion2";
+	"Mansion3";
+	"House";
+	"House1";
+	"House2";
+	"House3";
+}
+
 local MapNames = {
 	"Mineshaft";
 	"Farmhouse";
@@ -811,6 +846,8 @@ workspace.ChildAdded:Connect(function(Child)
 
 		-- Gun Dropped
 		AssumeDead = false
+		TweenCoinbagFull = false
+		local TLoop = 0
 		local TPdUp = false
 		local LocalPlayerMurderer = false
 		local Container = Child:WaitForChild("CoinContainer", 120)
@@ -854,6 +891,9 @@ workspace.ChildAdded:Connect(function(Child)
 			end
 
 			local FullCoinBag = CoinBag:FindFirstChild("Full")
+			if FullCoinBag then
+				TweenCoinbagFull = true -- Cancels all Tweens
+			end
 
 
 			local Char_2 = Character()
@@ -1008,7 +1048,11 @@ workspace.ChildAdded:Connect(function(Child)
 				if not FoundGun_2 and not TPdUp then
 					print("TP'D Up")
 					TPdUp = true
-					Char_5.HumanoidRootPart.CFrame = Char_5.HumanoidRootPart.CFrame * CFrame.new(0, 70, 0)
+					if table.find(HigherTps, Child.Name) then
+						Char_5.HumanoidRootPart.CFrame = Char_5.HumanoidRootPart.CFrame * CFrame.new(0, 140, 0)
+					else
+						Char_5.HumanoidRootPart.CFrame = Char_5.HumanoidRootPart.CFrame * CFrame.new(0, 70, 0)
+					end
 				end
 			end
 			
