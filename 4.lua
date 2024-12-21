@@ -21,11 +21,11 @@ if Studio then
 		return true
 	end
 end
-local ScriptVersion = "3.08"
+local ScriptVersion = "3.09"
 print("Starting "..ScriptVersion)
 task.spawn(function()
-	while wait(30) do
-		print("cool number that should be what i say it is to make sure you're on the right version:"..ScriptVersion)
+	while wait(60) do
+		print("cool number that should be what i say it is to make sure you're on the right version: "..ScriptVersion)
 	end
 end)
 
@@ -94,14 +94,6 @@ end
 -- // Main
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
-
--- // Dont execute Twice.
---if global.Executed then
---	LocalPlayer:Kick("Do not Execute Twice. Rejoining.")
---else
---	global.Executed = true	
---end
-
 
 local TeleportService = game:GetService("TeleportService")
 local CoreGui
@@ -357,7 +349,7 @@ local function WebhookSend(TaiShii, Name, Rarity, Color)
 		warn("Christmas2024", "Webhook", TaiShii)
 		if TaiShii == "SnowTokens" then
 			if not Christmas2024_Webhook_URL then
-				warn("Christmas2024 Webhook_URL is not set.")
+				warn("Christmas2024 Webhook URL is not set.")
 				return
 			end
 			Christmas2024_CandyFromMod = ProfileDataReq.Materials.Owned["SnowTokens2024"]
@@ -377,7 +369,7 @@ local function WebhookSend(TaiShii, Name, Rarity, Color)
 			]]
 
 			request({
-				Url = Halloween2024_Webhook_URL .. "/messages/" .. Halloween2024_MessageID,
+				Url = Christmas2024_Webhook_URL .. "/messages/" .. Christmas2024_MessageID,
 				Method = "PATCH",
 				Body = JSONStuff,
 				Headers = {["Content-Type"] = "application/json"}
@@ -626,6 +618,26 @@ if Event == "Halloween2024" then
 	end)
 end
 
+if Event == "Christmas2024" then
+	local SentFinished = false
+	task.spawn(function()
+		WebhookSend("SnowTokens")
+		while wait(Christmas2024_Webhook_Frequency) do
+			Christmas2024_CandyFromMod = ProfileDataReq.Materials.Owned["SnowTokens2024"] or 0
+			
+			-- Buy BattlePass
+			-- Check BattlePass Tier
+			-- Buy Crate
+			
+			WebhookSend("SnowTokens")
+			if #Players:GetPlayers() < 2 then
+				warn("under 2 players, leaving")
+				Hop()
+			end
+		end
+	end)
+end
+
 print("Finished Main")
 print("Starting Farm")
 local MapNames = {
@@ -647,6 +659,7 @@ local MapNames = {
 	-- Christmas
 	"LogCabin";
 	"Station";
+	"ChristmasItaly";
 
 	"Bank";
 	"Bank1";
