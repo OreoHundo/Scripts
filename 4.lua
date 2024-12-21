@@ -1,3 +1,29 @@
+--[[
+EVENTS
+
+    ["Christmas2024"] = {
+        BuyBattlePass = false;
+        BuyCrates = false;
+
+        Frequency = 30;
+        SnowTokens_URL = "https://discord.com/api/webhooks/1306434694434263081/tLKnL_02GIQQwIpYtM9dy-_7MOMhcEHd6GrjRHRwwGGGNZNEqjymhA9fjCqNePXMZdVC";
+        Finished_URL = "https://discord.com/api/webhooks/1319821476219588710/n0C87FHbSQ1FQq_CooSNU-2XVYatL7EXpGLdsv_JWS0mzyexiEQBxC-kW4JHMvi0zr62";
+    };
+
+
+    ["Halloween2024"] = {
+        BuyBattlePass = true;
+        BuyCrates = false;
+
+        Frequency = 30;
+        Candy_URL = "https://discord.com/api/webhooks/1298061823097962548/bskaz_Xxcjc-JHoVX3mqQtp4-skzQ7odMSzmmGRXcPAsm3QzBnTdqmqv-LtVZrY1eHuk";
+        Finished_URL = "https://discord.com/api/webhooks/1298443235164946524/VIwu_VqcyK52cEEPwWLZTOOJDjfFdCecgwvNfPkn-gmVcfF4Wc5WILGeVzx98TOLRSqS";
+        Crate_URL = "https://discord.com/api/webhooks/1298855119420657684/MdYPWhEXOFsPTW6HAALauxp0bSVnUPBI0K1muZ_SzihCjUQnZnIwQbh7diortd5WABiV";
+    };
+        
+]]
+
+
 if not game:IsLoaded() then 
 	repeat 
 		task.wait() 
@@ -5,11 +31,11 @@ if not game:IsLoaded() then
 	task.wait(10) 
 end 
 
-local rs = game:GetService("RunService") 
-local Studio = rs:IsStudio() 
+local RunService = game:GetService("RunService") 
+local Studio = RunService:IsStudio() 
 local global = Studio and _G or getgenv()
 
-local ScriptVersion = "3.19"
+local ScriptVersion = "3.20"
 print("Starting "..ScriptVersion)
 task.spawn(function()
 	while wait(60) do
@@ -141,7 +167,6 @@ LocalPlayer.Idled:connect(function()
 end)
 local VirtualInputManager = game:GetService("VirtualInputManager")
 local TweenService = game:GetService("TweenService")
-local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local HTTP = game:GetService("HttpService")
 local SendInvChange = false
@@ -706,16 +731,6 @@ if Event == "Christmas2024" then
 		WebhookSend("SnowTokens")
 		while wait(Christmas2024_Webhook_Frequency) do
 			Christmas2024_CandyFromMod = ProfileDataReq.Materials.Owned["SnowTokens2024"] or 0
-			
-			--[[
-				local Christmas2024_BuyBattlePass
-				local Christmas2024_BuyCrates
-				local Christmas2024_Webhook_Frequency
-				local Christmas2024_Webhook_URL
-				local Christmas2024_FinishedWebhook_URL
-				local Christmas2024_CrateWebhook_URL
-			]]
-			
 			
 			if Christmas2024_CandyFromMod > 800 and Christmas2024_BuyBattlePass then
 				Christmas2024_BuyAllTiers()
