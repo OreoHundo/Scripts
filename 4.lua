@@ -321,9 +321,9 @@ if Event == "Christmas2024" then
 	Christmas2024_ClaimReward = Remotes:WaitForChild("Events", 120):WaitForChild("Christmas2023", 120):WaitForChild("ClaimReward", 120)
 
 
-	Christmas2024_BPInfo = Halloween2024_GUI:WaitForChild("Container", 120):WaitForChild("EventFrames", 120):WaitForChild("BattlePass", 120):WaitForChild("Info", 120)
-	Christmas2024_CurrentTokens = Halloween2024_BPInfo:WaitForChild("Tokens", 120):WaitForChild("Container", 120):WaitForChild("TextLabel", 120)
-	Christmas2024_CurrentTier = Halloween2024_BPInfo:WaitForChild("YourTier", 120):WaitForChild("TextLabel", 120)
+	Christmas2024_BPInfo = Christmas2024_GUI:WaitForChild("Container", 120):WaitForChild("EventFrames", 120):WaitForChild("BattlePass", 120):WaitForChild("Info", 120)
+	Christmas2024_CurrentTokens = Christmas2024_BPInfo:WaitForChild("Tokens", 120):WaitForChild("Container", 120):WaitForChild("TextLabel", 120)
+	Christmas2024_CurrentTier = Christmas2024_BPInfo:WaitForChild("YourTier", 120):WaitForChild("TextLabel", 120)
 
 	
 	Christmas2024_BuyAllTiers = function()
