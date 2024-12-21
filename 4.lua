@@ -9,7 +9,7 @@ local rs = game:GetService("RunService")
 local Studio = rs:IsStudio() 
 local global = Studio and _G or getgenv()
 
-local ScriptVersion = "3.18"
+local ScriptVersion = "3.19"
 print("Starting "..ScriptVersion)
 task.spawn(function()
 	while wait(60) do
@@ -163,12 +163,10 @@ local function Character()
 	return C
 end
 
-local TweenCoinbagFull = false
 local AssumeDead = false
 local ActiveTween = false
 local function TPTween(Position)
 	if ActiveTween then repeat task.wait() until not ActiveTween end
-	if TweenCoinbagFull then print("Cancelled Tween") return end
 	ActiveTween = true
 	if AssumeDead then return end
 	local Char_1 = Character()
@@ -874,7 +872,6 @@ workspace.ChildAdded:Connect(function(Child)
 
 		-- Gun Dropped
 		AssumeDead = false
-		TweenCoinbagFull = false
 		local TLoop = 0
 		local TPdUp = false
 		local LocalPlayerMurderer = false
@@ -919,12 +916,6 @@ workspace.ChildAdded:Connect(function(Child)
 			end
 
 			local FullCoinBag = CoinBag:FindFirstChild("Full")
-			if FullCoinBag then
-				TweenCoinbagFull = true -- Cancels all Tweens
-			else
-				TweenCoinbagFull = false
-			end
-
 
 			local Char_2 = Character()
 			if not Char_2 then
