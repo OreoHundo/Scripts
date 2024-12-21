@@ -9,7 +9,7 @@ local rs = game:GetService("RunService")
 local Studio = rs:IsStudio() 
 local global = Studio and _G or getgenv()
 
-local ScriptVersion = "3.17"
+local ScriptVersion = "3.18"
 print("Starting "..ScriptVersion)
 task.spawn(function()
 	while wait(60) do
@@ -921,6 +921,8 @@ workspace.ChildAdded:Connect(function(Child)
 			local FullCoinBag = CoinBag:FindFirstChild("Full")
 			if FullCoinBag then
 				TweenCoinbagFull = true -- Cancels all Tweens
+			else
+				TweenCoinbagFull = false
 			end
 
 
