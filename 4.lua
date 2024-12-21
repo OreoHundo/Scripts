@@ -21,7 +21,7 @@ if Studio then
 		return true
 	end
 end
-local ScriptVersion = "3.10"
+local ScriptVersion = "3.11"
 print("Starting "..ScriptVersion)
 task.spawn(function()
 	while wait(60) do
