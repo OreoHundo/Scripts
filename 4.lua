@@ -1,27 +1,15 @@
-if not game:IsLoaded() then repeat task.wait() until game:IsLoaded() task.wait(10) end local rs = game:GetService("RunService") local Studio = rs:IsStudio() local global = Studio and _G or getgenv()
-if Studio then
-	warn("Studio")
-	function request()
-		return true
-	end
+if not game:IsLoaded() then 
+	repeat 
+		task.wait() 
+	until game:IsLoaded() 
+	task.wait(10) 
+end 
 
-	function readfile()
-		return true
-	end
+local rs = game:GetService("RunService") 
+local Studio = rs:IsStudio() 
+local global = Studio and _G or getgenv()
 
-	function isfile()
-		return true
-	end
-
-	function writefile()
-		return true
-	end
-
-	function setfpscap()
-		return true
-	end
-end
-local ScriptVersion = "3.15"
+local ScriptVersion = "3.17"
 print("Starting "..ScriptVersion)
 task.spawn(function()
 	while wait(60) do
@@ -320,8 +308,8 @@ if Event == "Christmas2024" then
 	
 	Christmas2024_GUI = PlayerGui:WaitForChild("CrossPlatform", 120):WaitForChild("Christmas2024", 120)
 
-	Christmas2024_BuyTiers = Remotes:WaitForChild("Events", 120):WaitForChild("Christmas2023", 120):WaitForChild("BuyTiers", 120)
-	Christmas2024_ClaimReward = Remotes:WaitForChild("Events", 120):WaitForChild("Christmas2023", 120):WaitForChild("ClaimReward", 120)
+	Christmas2024_BuyTiers = Remotes:WaitForChild("Events", 120):WaitForChild("Generic", 120):WaitForChild("BuyTiers", 120)
+	Christmas2024_ClaimReward = Remotes:WaitForChild("Events", 120):WaitForChild("Generic", 120):WaitForChild("ClaimBattlePassReward", 120)
 
 
 	Christmas2024_BPInfo = Christmas2024_GUI:WaitForChild("Container", 120):WaitForChild("EventFrames", 120):WaitForChild("BattlePass", 120):WaitForChild("Info", 120)
@@ -336,7 +324,7 @@ if Event == "Christmas2024" then
 			warn("Christmas2024", "Buying Battle Pass Tiers.")
 			for Index = 1, 20 do 
 				Christmas2024_BuyTiers:FireServer(1)
-				Christmas2024_ClaimReward:FireServer(tostring(Index))
+				Christmas2024_ClaimReward:FireServer(Index)
 			end
 		end
 		return true
@@ -449,7 +437,28 @@ local function WebhookSend(TaiShii, Name, Rarity, Color)
 				Headers = {["Content-Type"] = "application/json"}
 			})	
 		elseif TaiShii == "Finished" then
+			JSONStuff = [[
+			{
+			  "content": null,
+			  "embeds": [
+			    {
+			      "title": "Account ]]..tostring(LocalPlayer.Name)..[[ Has 98,000 Snow Tokens and the entire battlepass.",
+			      "color": 47359,
+			      "author": {
+			        "name": ""
+			      }
+			    }
+			  ],
+			  "attachments": []
+			}
+			]]
 
+			request({
+				Url = Christmas2024_FinishedWebhook_URL,
+				Method = "POST",
+				Body = JSONStuff,
+				Headers = {["Content-Type"] = "application/json"}
+			})
 		elseif TaiShii == "Crate" then
 
 		elseif TaiShii == "Start" then
@@ -646,6 +655,7 @@ local function WebhookSend(TaiShii, Name, Rarity, Color)
 		end
 	end
 end
+WebhookSend("Start")
 
 if ForceRejoin > 0 then
 	task.spawn(function()
@@ -699,9 +709,28 @@ if Event == "Christmas2024" then
 		while wait(Christmas2024_Webhook_Frequency) do
 			Christmas2024_CandyFromMod = ProfileDataReq.Materials.Owned["SnowTokens2024"] or 0
 			
-			-- Buy BattlePass
-			-- Check BattlePass Tier
-			-- Buy Crate
+			--[[
+				local Christmas2024_BuyBattlePass
+				local Christmas2024_BuyCrates
+				local Christmas2024_Webhook_Frequency
+				local Christmas2024_Webhook_URL
+				local Christmas2024_FinishedWebhook_URL
+				local Christmas2024_CrateWebhook_URL
+			]]
+			
+			
+			if Christmas2024_CandyFromMod > 800 and Christmas2024_BuyBattlePass then
+				Christmas2024_BuyAllTiers()
+			end
+			
+			if Christmas2024_CandyFromMod > 800 and Christmas2024_BuyCrates then
+				Christmas2024_BuyCrate()
+			end
+			
+			if Halloween2024_CurrentTier.Text == "Your Tier: 20 / 20" and Christmas2024_CandyFromMod > 98_000 and not SentFinished then
+				WebhookSend("Finished")
+				SentFinished = true
+			end
 			
 			WebhookSend("SnowTokens")
 			if #Players:GetPlayers() < 2 then
@@ -783,9 +812,8 @@ for Index, Child in pairs(workspace:GetChildren()) do
 		warn(Child.Name, "Active Game, Starting Next Round")
 	end
 end
-WebhookSend("Start")
 
-if not Studio and Event == "Halloween2024" then
+if Event == "Halloween2024" then
 	warn("Halloween2024","Waiting for Inventory.")
 	local ContainerHInv = PlayerGui:WaitForChild("MainGUI", 120):WaitForChild("Game", 120):WaitForChild("Inventory", 120):WaitForChild("Main", 120):WaitForChild("Weapons", 120):WaitForChild("Items", 120):WaitForChild("Container", 120):WaitForChild("Holiday", 120):WaitForChild("Container", 120):WaitForChild("Halloween", 120):WaitForChild("Container", 120)
 	ContainerHInv.ChildAdded:Connect(function(Child)
