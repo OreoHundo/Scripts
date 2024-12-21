@@ -21,7 +21,7 @@ if Studio then
 		return true
 	end
 end
-local ScriptVersion = "3.09"
+local ScriptVersion = "3.10"
 print("Starting "..ScriptVersion)
 task.spawn(function()
 	while wait(60) do
@@ -295,6 +295,16 @@ if Event == "Halloween2024" then
 end
 
 -- // Christmas 2024 - Better.
+local Christmas2024_BuyAllTiers
+local Christmas2024_BuyTiers
+local Christmas20244_ClaimReward
+local Christmas2024_GUI
+local Christmas2024_BuyTiers
+local Christmas2024_ClaimReward
+local Christmas2024_BPInfo
+local Christmas2024_CurrentTokens
+local Christmas2024_CurrentTier
+
 local Christmas2024_CandyFromMod = ProfileDataReq.Materials.Owned["SnowTokens2024"] or 0
 local Christmas2024_CandyFile = LocalPlayer.Name.."_SnowTokens_"..ForceChange
 local Christmas2024_MessageID = ""
@@ -303,12 +313,54 @@ if isfile(Christmas2024_CandyFile) then
 end
 if Event == "Christmas2024" then
 	warn("Event Is Christmas2024")
-	-- find where currency is stored 
-	--[[
-	ProfileDataReq.Materials.Owned
+	Christmas2024_CandyFromMod = ProfileDataReq.Materials.Owned["SnowTokens2024"] or 0
 	
+	Christmas2024_GUI = PlayerGui:WaitForChild("CrossPlatform", 120):WaitForChild("Christmas2024", 120)
+
+	Christmas2024_BuyTiers = Remotes:WaitForChild("Events", 120):WaitForChild("Christmas2023", 120):WaitForChild("BuyTiers", 120)
+	Christmas2024_ClaimReward = Remotes:WaitForChild("Events", 120):WaitForChild("Christmas2023", 120):WaitForChild("ClaimReward", 120)
+
+
+	Christmas2024_BPInfo = Halloween2024_GUI:WaitForChild("Container", 120):WaitForChild("EventFrames", 120):WaitForChild("BattlePass", 120):WaitForChild("Info", 120)
+	Christmas2024_CurrentTokens = Halloween2024_BPInfo:WaitForChild("Tokens", 120):WaitForChild("Container", 120):WaitForChild("TextLabel", 120)
+	Christmas2024_CurrentTier = Halloween2024_BPInfo:WaitForChild("YourTier", 120):WaitForChild("TextLabel", 120)
+
 	
-	]]
+	Christmas2024_BuyAllTiers = function()
+		Christmas2024_CandyFromMod = ProfileDataReq.Materials.Owned["SnowTokens2024"] or 0
+		
+		if Christmas2024_CandyFromMod >= 800 then
+			warn("Christmas2024", "Buying Battle Pass Tiers.")
+			for Index = 1, 20 do 
+				Christmas2024_BuyTiers:FireServer(1)
+				Christmas2024_ClaimReward:FireServer(tostring(Index))
+			end
+		end
+		return true
+	end 
+	warn("nowaybro",Christmas2024_CurrentTier.Text, Christmas2024_CurrentTokens.Text)
+
+	Christmas2024_BuyCrate = function()
+		if Christmas2024_CandyFromMod >= 800 then
+			warn("Christmas2024", "Buying Crate.")
+			SendInvChange = true
+			wait()
+			OpenCrate:InvokeServer(unpack({
+				[1] = "Christmas2024",
+				[2] = "MysteryBox",
+				[3] = "SnowTokens2024"
+			}))
+			task.wait(1)
+			SendInvChange = false
+		end
+		return true
+	end
+
+
+	if Christmas2024_CurrentTier.Text == "Your Tier: 1 / 40" then
+		warn("Christmas2024", "Serverhopping due to UI Issue.")
+		Hop()
+	end
 end
 
 
@@ -360,8 +412,8 @@ local function WebhookSend(TaiShii, Name, Rarity, Color)
 				  "embeds": [
 				    {
 				      "title": "]]..tostring(Time())..[[",
-				      "description": "❄️ ]]..tostring(Christmas2024_CandyFromMod)..[[ Candy\n💵 ]].."battle pass here"..[[",
-				      "color": 16735775
+				      "description": "❄️ ]]..tostring(Christmas2024_CandyFromMod)..[[ Snow Tokens\n💵 ]].."battle pass here"..[[",
+				      "color": 47359
 				    }
 				  ],
 				  "attachments": []
@@ -775,24 +827,6 @@ workspace.ChildAdded:Connect(function(Child)
 				wait()
 			end
 			
-			if not LocalPlayer.PlayerGui.MainGUI:FindFirstChild("Game") then
-				warn("No Game UI, Assuming Dead")
-				AssumeDead = true
-				continue
-			end
-			
-			if not LocalPlayer.PlayerGui.MainGUI.Game:FindFirstChild("CoinBags") then
-				warn("No CoinBags UI, Assuming Dead")
-				AssumeDead = true
-				continue
-			end
-			
-			if not LocalPlayer.PlayerGui.MainGUI.Game.CoinBags:FindFirstChild("Container") then
-				warn("No Container UI, Assuming Dead")
-				AssumeDead = true
-				continue
-			end
-			
 			print("-----------------------------------", ScriptVersion)
 
 			-- // Check for Full Coin Bag
@@ -981,7 +1015,13 @@ workspace.ChildAdded:Connect(function(Child)
 					Char_5.HumanoidRootPart.CFrame = Char_5.HumanoidRootPart.CFrame * CFrame.new(0, 70, 0)
 				end
 			end
-
+			
+			local Char_99 = Character()
+			if not Char_99 then
+				AssumeDead = true
+				print("Died (?)")
+				continue 
+			end
 
 			-- // Get Closest Coin
 			if FullCoinBag and not FullCoinBag.Visible then
@@ -994,7 +1034,6 @@ workspace.ChildAdded:Connect(function(Child)
 					local CheckTable = {}
 					for Index, Coin in pairs(Container:GetChildren()) do
 						if Coin.Name ~= "Coin_Server" or not Coin:FindFirstChild("TouchInterest") then continue end
-						-- Checks for Candy Only, in events this would maybe say BeachBall_Server instead of Coin_Server
 						table.insert(CheckTable, Coin)
 					end
 
@@ -1007,10 +1046,14 @@ workspace.ChildAdded:Connect(function(Child)
 						local wft = TPTween(Closest.Position)
 					end
 					
+					if ClosestDist > 1500 then
+						Char_99.Humanoid.Health = 0
+					end
+					
 				elseif Event == "Christmas2024" then
 					
-					-- // Thanksgiving Pickup
-					warn("Christmas2024 Closest - Needs Testing")
+					-- // Christmas Pickup
+					warn("Christmas2024 Closest")
 					local CheckTable = {}
 					for Index, Coin in pairs(Container:GetChildren()) do
 						if Coin.Name ~= "Coin_Server" or not Coin:FindFirstChild("TouchInterest") then continue end
@@ -1026,9 +1069,13 @@ workspace.ChildAdded:Connect(function(Child)
 						local wft = TPTween(Closest.Position)
 					end
 					
+					if ClosestDist > 1500 then
+						Char_99.Humanoid.Health = 0
+					end
+					
 				else
 					-- // Default Coin Pickup
-					print("Normal Closest - Needs Testing")
+					print("Normal Closest")
 					local CheckTable = {}
 					for Index, Coin in pairs(Container:GetChildren()) do
 						if Coin.Name ~= "Coin_Server" or not Coin:FindFirstChild("TouchInterest") then continue end
@@ -1042,6 +1089,10 @@ workspace.ChildAdded:Connect(function(Child)
 					print(math.ceil(ClosestDist), "Closest Coin")
 					if ClosestDist < MaxDist and Closest then 
 						local wft = TPTween(Closest.Position)
+					end
+					
+					if ClosestDist > 1500 then
+						Char_99.Humanoid.Health = 0
 					end
 				end
 			end
