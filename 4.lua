@@ -304,6 +304,7 @@ local Christmas2024_ClaimReward
 local Christmas2024_BPInfo
 local Christmas2024_CurrentTokens
 local Christmas2024_CurrentTier
+local Christmas2024_BuyCrate
 
 local Christmas2024_CandyFromMod = ProfileDataReq.Materials.Owned["SnowTokens2024"] or 0
 local Christmas2024_CandyFile = LocalPlayer.Name.."_SnowTokens_"..ForceChange
@@ -738,6 +739,7 @@ local MapNames = {
 	"Station";
 	"ChristmasItaly";
 	"SkiLodge";
+	"IceCastle";
 }
 
 local GunConnections = {}
