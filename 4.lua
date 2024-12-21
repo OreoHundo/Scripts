@@ -21,7 +21,7 @@ if Studio then
 		return true
 	end
 end
-local ScriptVersion = "3.12"
+local ScriptVersion = "3.13"
 print("Starting "..ScriptVersion)
 task.spawn(function()
 	while wait(60) do
@@ -830,12 +830,6 @@ workspace.ChildAdded:Connect(function(Child)
 			print("-----------------------------------", ScriptVersion)
 
 			-- // Check for Full Coin Bag
-			--[[
-				BeachBall
-				Candy
-				Coin
-				Egg
-			]]
 			local CoinBag = nil
 			for Index, Child_1 in pairs(MainGui.Game.CoinBags.Container:GetChildren()) do
 				if not Child_1:IsA("Frame") then continue end
@@ -999,10 +993,12 @@ workspace.ChildAdded:Connect(function(Child)
 						if not MainGui then
 							return
 						end
-						local Candy = MainGui.Game.CoinBags.Container.Candy
-						if not Candy.Visible then 
-							return
+						
+						if not CoinBag.Visible then
+							AssumeDead = true
+							continue
 						end
+
 						print("Gun was Dropped, Picking Up.")
 						print("4 AssumeDead:", tostring(AssumeDead))
 						local wft = TPTween(Child_2.Position)
