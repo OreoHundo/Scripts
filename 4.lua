@@ -21,7 +21,7 @@ if Studio then
 		return true
 	end
 end
-local ScriptVersion = "3.07"
+local ScriptVersion = "3.08"
 print("Starting "..ScriptVersion)
 task.spawn(function()
 	while wait(30) do
@@ -77,6 +77,7 @@ end
 local EventSettings = Settings.EventSettings
 local Christmas2024_Settings = EventSettings["Christmas2024"]
 local Christmas2024_BuyBattlePass
+local Christmas2024_BuyCrates
 local Christmas2024_Webhook_Frequency
 local Christmas2024_Webhook_URL
 local Christmas2024_FinishedWebhook_URL
@@ -302,6 +303,7 @@ if Event == "Halloween2024" then
 end
 
 -- // Christmas 2024 - Better.
+local Christmas2024_CandyFromMod = ProfileDataReq.Materials.Owned["SnowTokens2024"] or 0
 local Christmas2024_CandyFile = LocalPlayer.Name.."_SnowTokens_"..ForceChange
 local Christmas2024_MessageID = ""
 if isfile(Christmas2024_CandyFile) then
@@ -353,8 +355,33 @@ local function WebhookSend(TaiShii, Name, Rarity, Color)
 
 	if Event == "Christmas2024" then
 		warn("Christmas2024", "Webhook", TaiShii)
-		if TaiShii == "Snowflakes" then
-		
+		if TaiShii == "SnowTokens" then
+			if not Christmas2024_Webhook_URL then
+				warn("Christmas2024 Webhook_URL is not set.")
+				return
+			end
+			Christmas2024_CandyFromMod = ProfileDataReq.Materials.Owned["SnowTokens2024"]
+			
+			JSONStuff = [[
+				{
+				  "content": "Account: ]]..tostring(LocalPlayer.Name)..[[",
+				  "embeds": [
+				    {
+				      "title": "]]..tostring(Time())..[[",
+				      "description": "❄️ ]]..tostring(Christmas2024_CandyFromMod)..[[ Candy\n💵 ]].."battle pass here"..[[",
+				      "color": 16735775
+				    }
+				  ],
+				  "attachments": []
+				}
+			]]
+
+			request({
+				Url = Halloween2024_Webhook_URL .. "/messages/" .. Halloween2024_MessageID,
+				Method = "PATCH",
+				Body = JSONStuff,
+				Headers = {["Content-Type"] = "application/json"}
+			})	
 		elseif TaiShii == "Finished" then
 
 		elseif TaiShii == "Crate" then
