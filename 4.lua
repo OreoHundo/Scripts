@@ -21,7 +21,7 @@ if Studio then
 		return true
 	end
 end
-local ScriptVersion = "3.06"
+local ScriptVersion = "3.07"
 print("Starting "..ScriptVersion)
 task.spawn(function()
 	while wait(30) do
@@ -603,7 +603,6 @@ print("Finished Main")
 print("Starting Farm")
 local MapNames = {
 	"Mineshaft";
-	"Manor";
 	"Farmhouse";
 	"BioLab";
 	"Workplace";
@@ -613,8 +612,14 @@ local MapNames = {
 	"PoliceStation";
 	"ResearchFacility";
 	"MilBase";
+	
+	-- Halloween
 	"VampireCastle";
+	"Manor";
+	
+	-- Christmas
 	"LogCabin";
+	"Station";
 
 	"Bank";
 	"Bank1";
